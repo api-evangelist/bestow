@@ -1,90 +1,89 @@
 aid: bestow
 name: Bestow
-description: >-
-  Bestow is a Dallas, Texas life insurance technology company building a unified
-  SaaS platform for life insurance carriers, agents, and embedded partners.
-  Founded in 2016, Bestow provides end-to-end and modular solutions across new
-  business and policy administration, including a digital Application Suite for
-  quote, illustration, and application journeys; an Underwriting engine and
-  workbench with instant, fully automated decisioning powered by machine learning
-  on actuarial data; an Agent Portal and sales management tooling; an Admin
-  Portal and Customer Portal for self-service; TPA (Third-Party Administrator)
-  services; a Performance IQ analytics surface; and a Data Optimization Suite
-  for modeling, integrations, and activation. Bestow's Protect API and
-  associated SDK power embedded life insurance — letting fintechs, banks,
-  financial institutions, P&C carriers, mortgage platforms, and benefits
-  providers offer instant term life, final expense, and IUL coverage inside
-  their own apps and websites, with Bestow handling underwriting, payment,
-  billing, policy delivery, and ongoing administration behind the scenes.
-  Integrations span ACORD life and annuities data standards, Adyen for
-  payments, Cloudflare for identity and security, and data vendors including
-  Bevel, Clareto, EIS, ExamOne, and Human API ReFlex Select. There is no
-  publicly accessible developer portal or API reference — partner documentation,
-  sandbox access, and Protect API onboarding are gated behind a partner login
-  at docs.bestow.com and arranged through Bestow's sales and partnerships team.
+description: Bestow is a Dallas, Texas life insurance technology company building
+  a unified SaaS platform for life insurance carriers, agents, and embedded partners.
+  Founded in 2016, Bestow provides end-to-end and modular solutions across new business
+  and policy administration, including a digital Application Suite for quote, illustration,
+  and application journeys; an Underwriting engine and workbench with instant, fully
+  automated decisioning powered by machine learning on actuarial data; an Agent Portal
+  and sales management tooling; an Admin Portal and Customer Portal for self-service;
+  TPA (Third-Party Administrator) services; a Performance IQ analytics surface; and
+  a Data Optimization Suite for modeling, integrations, and activation. Bestow's Protect
+  API and associated SDK power embedded life insurance — letting fintechs, banks,
+  financial institutions, P&C carriers, mortgage platforms, and benefits providers
+  offer instant term life, final expense, and IUL coverage inside their own apps and
+  websites, with Bestow handling underwriting, payment, billing, policy delivery,
+  and ongoing administration behind the scenes. Integrations span ACORD life and annuities
+  data standards, Adyen for payments, Cloudflare for identity and security, and data
+  vendors including Bevel, Clareto, EIS, ExamOne, and Human API ReFlex Select. There
+  is no publicly accessible developer portal or API reference — partner documentation,
+  sandbox access, and Protect API onboarding are gated behind a partner login at docs.bestow.com
+  and arranged through Bestow's sales and partnerships team.
 type: Index
 position: Provider
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Insurance
-  - Life Insurance
-  - InsurTech
-  - Embedded Insurance
-  - Insurance As A Service
-  - Underwriting
-  - Policy Administration
-  - Term Life
-  - Final Expense
-  - IUL
-  - Protect API
-  - SDK
-  - ACORD
-  - Financial Services
+- Insurance
+- Life Insurance
+- InsurTech
+- Embedded Insurance
+- Insurance As A Service
+- Underwriting
+- Policy Administration
+- Term Life
+- Final Expense
+- IUL
+- Protect API
+- SDK
+- ACORD
+- Financial Services
 url: https://raw.githubusercontent.com/api-evangelist/bestow/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.20'
 apis: []
 common:
-  - type: Website
-    url: https://www.bestow.com
-  - type: ApplicationSuite
-    url: https://www.bestow.com/application-suite
-  - type: Underwriting
-    url: https://www.bestow.com/underwriting
-  - type: AgentTools
-    url: https://www.bestow.com/agent-tools
-  - type: Integrations
-    url: https://www.bestow.com/integrations
-  - type: APIPartners
-    url: https://www.bestow.com/api-partners
-  - type: PartnerDocs
-    url: https://docs.bestow.com
-  - type: PartnerAPI
-    url: https://api.hellobestow.com
-  - type: FAQ
-    url: https://www.bestow.com/faq
-  - type: Insights
-    url: https://www.bestow.com/insights
-  - type: Newsroom
-    url: https://www.bestow.com/newsroom
-  - type: Careers
-    url: https://www.bestow.com/careers
-  - type: Contact
-    url: https://www.bestow.com/contact
-  - type: Licenses
-    url: https://www.bestow.com/licenses
-  - type: Terms
-    url: https://www.bestow.com/terms-conditions
-  - type: Privacy
-    url: https://www.bestow.com/privacy-policy
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/bestowtech/
-  - type: YouTube
-    url: https://www.youtube.com/@bestow_tech
-  - type: Medium
-    url: https://medium.com/bestowinc
+- type: Website
+  url: https://www.bestow.com
+- type: ApplicationSuite
+  url: https://www.bestow.com/application-suite
+- type: Underwriting
+  url: https://www.bestow.com/underwriting
+- type: AgentTools
+  url: https://www.bestow.com/agent-tools
+- type: Integrations
+  url: https://www.bestow.com/integrations
+- type: APIPartners
+  url: https://www.bestow.com/api-partners
+- type: PartnerDocs
+  url: https://docs.bestow.com
+- type: PartnerAPI
+  url: https://api.hellobestow.com
+- type: FAQ
+  url: https://www.bestow.com/faq
+- type: Insights
+  url: https://www.bestow.com/insights
+- type: Newsroom
+  url: https://www.bestow.com/newsroom
+- type: Careers
+  url: https://www.bestow.com/careers
+- type: Contact
+  url: https://www.bestow.com/contact
+- type: Licenses
+  url: https://www.bestow.com/licenses
+- type: Terms
+  url: https://www.bestow.com/terms-conditions
+- type: Privacy
+  url: https://www.bestow.com/privacy-policy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/bestowtech/
+- type: YouTube
+  url: https://www.youtube.com/@bestow_tech
+- type: Medium
+  url: https://medium.com/bestowinc
+- url: graphql/bestow-graphql.md
+  type: GraphQL
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

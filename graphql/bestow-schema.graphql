@@ -1,0 +1,699 @@
+# Bestow Conceptual GraphQL Schema
+# Models the Bestow Protect API and embedded life insurance platform.
+# Partner API: https://api.hellobestow.com
+# Developer portal: https://developers.bestow.com/
+
+# -------------------------------------------------------------------
+# Enumerations
+# -------------------------------------------------------------------
+
+enum ApplicationStatus {
+  STARTED
+  SUBMITTED
+  PENDING
+  APPROVED
+  DECLINED
+  REFERRED
+  CANCELLED
+}
+
+enum PolicyStatus {
+  ACTIVE
+  LAPSED
+  CANCELLED
+  MATURED
+  CLAIMED
+  PENDING_ISSUE
+}
+
+enum TermLength {
+  TERM_10
+  TERM_15
+  TERM_20
+  TERM_25
+  TERM_30
+}
+
+enum PremiumFrequency {
+  MONTHLY
+  QUARTERLY
+  SEMI_ANNUAL
+  ANNUAL
+}
+
+enum BeneficiaryType {
+  PRIMARY
+  CONTINGENT
+  IRREVOCABLE
+}
+
+enum UnderwritingDecision {
+  APPROVED
+  DECLINED
+  REFERRED
+  POSTPONED
+  TABLE_RATED
+}
+
+enum ClaimStatus {
+  FILED
+  UNDER_REVIEW
+  APPROVED
+  PAID
+  DENIED
+  PENDING_DOCUMENTS
+}
+
+enum WebhookEventType {
+  APPLICATION_SUBMITTED
+  APPLICATION_APPROVED
+  APPLICATION_DECLINED
+  APPLICATION_REFERRED
+  OFFER_EXTENDED
+  OFFER_ACCEPTED
+  OFFER_EXPIRED
+  POLICY_ISSUED
+  POLICY_LAPSED
+  POLICY_CANCELLED
+  CLAIM_FILED
+  CLAIM_APPROVED
+  CLAIM_PAID
+  PAYMENT_RECEIVED
+  PAYMENT_FAILED
+}
+
+enum DocumentType {
+  POLICY_CONTRACT
+  DECLARATIONS_PAGE
+  WELCOME_LETTER
+  CHANGE_ENDORSEMENT
+  CANCELLATION_NOTICE
+}
+
+# -------------------------------------------------------------------
+# Core Application Types
+# -------------------------------------------------------------------
+
+type Application {
+  id: ID!
+  status: ApplicationStatus!
+  details: ApplicationDetails!
+  quote: Quote
+  applicant: Applicant!
+  healthAnswers: [HealthAnswer!]
+  offer: Offer
+  policy: Policy
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ApplicationDetails {
+  submittedAt: String
+  channel: String
+  partnerReferenceId: String
+  languagePreference: String
+  ipAddress: String
+  userAgent: String
+  partnerId: ID!
+}
+
+# -------------------------------------------------------------------
+# Quote Types
+# -------------------------------------------------------------------
+
+type Quote {
+  id: ID!
+  details: QuoteDetails!
+  terms: [QuoteTerms!]!
+  applicantAge: Int!
+  tobaccoUser: Boolean!
+  gender: String!
+  state: String!
+  createdAt: String!
+  expiresAt: String!
+}
+
+type QuoteDetails {
+  carrier: Carrier!
+  productType: String!
+  underwritingTier: String
+  faceAmount: Float!
+  currency: String!
+  minimumFaceAmount: Float!
+  maximumFaceAmount: Float!
+}
+
+type QuoteTerms {
+  termLength: TermLength!
+  monthlyPremium: Float!
+  annualPremium: Float!
+  coverageAmount: CoverageAmount!
+}
+
+# -------------------------------------------------------------------
+# Policy Types
+# -------------------------------------------------------------------
+
+type Policy {
+  id: ID!
+  policyNumber: String!
+  status: PolicyStatus!
+  details: PolicyDetails!
+  coverage: Coverage!
+  term: Term!
+  premium: Premium!
+  beneficiaries: [Beneficiary!]!
+  documents: [PolicyDocument!]
+  issueDetails: IssueDetails
+  deathBenefit: DeathBenefit
+  createdAt: String!
+  updatedAt: String!
+}
+
+type PolicyDetails {
+  effectiveDate: String!
+  lapseDate: String
+  gracePeriodEndDate: String
+  reinstatementEligible: Boolean!
+  paymentMethod: String
+  carrier: Carrier!
+  partner: PartnerDetails!
+}
+
+type PolicyDocument {
+  id: ID!
+  type: DocumentType!
+  url: String!
+  issueDate: String!
+  deliveredAt: String
+  deliveryMethod: String
+}
+
+# -------------------------------------------------------------------
+# Coverage Types
+# -------------------------------------------------------------------
+
+type Coverage {
+  id: ID!
+  details: CoverageDetails!
+  amount: CoverageAmount!
+  riders: [String!]
+}
+
+type CoverageDetails {
+  productName: String!
+  productCode: String!
+  coverageCategory: String!
+  exclusions: [String!]
+  acceleratedBenefitRiders: [String!]
+}
+
+type CoverageAmount {
+  value: Float!
+  currency: String!
+  minimum: Float!
+  maximum: Float!
+}
+
+# -------------------------------------------------------------------
+# Term Types
+# -------------------------------------------------------------------
+
+type Term {
+  id: ID!
+  length: TermLength!
+  details: TermDetails!
+}
+
+type TermDetails {
+  years: Int!
+  startDate: String!
+  endDate: String!
+  renewalEligible: Boolean!
+  renewalTerms: String
+}
+
+# -------------------------------------------------------------------
+# Premium Types
+# -------------------------------------------------------------------
+
+type Premium {
+  id: ID!
+  amount: Float!
+  currency: String!
+  frequency: PremiumFrequency!
+  dueDate: String
+  paidThrough: String
+  status: String!
+  details: PremiumDetails!
+}
+
+type PremiumDetails {
+  annualPremium: Float!
+  semiAnnualPremium: Float!
+  quarterlyPremium: Float!
+  monthlyPremium: Float!
+  modalFactor: Float!
+}
+
+# -------------------------------------------------------------------
+# Beneficiary Types
+# -------------------------------------------------------------------
+
+type Beneficiary {
+  id: ID!
+  type: BeneficiaryType!
+  details: BeneficiaryDetails!
+  sharePercentage: Float!
+}
+
+type BeneficiaryDetails {
+  firstName: String!
+  lastName: String!
+  relationship: String!
+  dateOfBirth: String
+  ssnLastFour: String
+  email: String
+  phone: String
+  address: Address
+}
+
+# -------------------------------------------------------------------
+# Applicant Types
+# -------------------------------------------------------------------
+
+type Applicant {
+  id: ID!
+  details: ApplicantDetails!
+  demographics: ApplicantDemographics!
+  riskProfile: RiskProfile
+}
+
+type ApplicantDetails {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  address: Address!
+  employmentStatus: String
+  annualIncome: Float
+  citizenshipStatus: String
+  ssn: String
+}
+
+type ApplicantDemographics {
+  dateOfBirth: String!
+  age: Int!
+  gender: String!
+  heightInches: Int
+  weightLbs: Int
+  tobaccoUser: Boolean!
+  buildTableScore: Float
+  state: String!
+}
+
+# -------------------------------------------------------------------
+# Health and Underwriting Types
+# -------------------------------------------------------------------
+
+type HealthQuestion {
+  id: ID!
+  text: String!
+  category: String!
+  required: Boolean!
+  followUpQuestions: [HealthQuestion!]
+  productType: String!
+}
+
+type HealthAnswer {
+  id: ID!
+  question: HealthQuestion!
+  answer: Boolean!
+  detail: String
+  providedAt: String!
+}
+
+type RiskProfile {
+  id: ID!
+  score: Float
+  tier: String
+  tobaccoRisk: Boolean!
+  buildRisk: String
+  dataVendorResults: [String!]
+  createdAt: String!
+}
+
+type UnderwritingDetails {
+  id: ID!
+  applicationId: ID!
+  decision: UnderwritingDecision!
+  decisionDate: String!
+  tier: String
+  tableRating: String
+  subStandardRating: Float
+  exclusions: [String!]
+  referral: ReferralDetails
+  notes: String
+}
+
+type ReferralDetails {
+  id: ID!
+  reason: String!
+  assignedUnderwriter: String
+  requiredEvidence: [String!]!
+  dueDate: String
+  notes: String
+}
+
+type DeathBenefit {
+  id: ID!
+  faceAmount: Float!
+  currency: String!
+  acceleratedBenefitAvailable: Boolean!
+  acceleratedBenefitPercentage: Float
+  riders: [String!]
+}
+
+# -------------------------------------------------------------------
+# Offer Types
+# -------------------------------------------------------------------
+
+type Offer {
+  id: ID!
+  applicationId: ID!
+  details: OfferDetails!
+  expiry: OfferExpiry!
+  status: String!
+  createdAt: String!
+}
+
+type OfferDetails {
+  coverageAmount: Float!
+  currency: String!
+  monthlyPremium: Float!
+  annualPremium: Float!
+  termLength: TermLength!
+  effectiveDate: String!
+  productName: String!
+  carrier: Carrier!
+}
+
+type OfferExpiry {
+  expiresAt: String!
+  daysRemaining: Int!
+  autoDeclined: Boolean!
+}
+
+type IssueDetails {
+  issueDate: String!
+  deliveryMethod: String!
+  eDeliveryConfirmedAt: String
+  policyDeliveredAt: String
+  welcomeLetterSentAt: String
+}
+
+# -------------------------------------------------------------------
+# Claim Types
+# -------------------------------------------------------------------
+
+type Claim {
+  id: ID!
+  policyId: ID!
+  status: ClaimStatus!
+  details: ClaimDetails!
+  benefitPayments: [BenefitPayment!]
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ClaimDetails {
+  claimantFirstName: String!
+  claimantLastName: String!
+  claimantRelationship: String!
+  dateOfDeath: String!
+  causeOfDeath: String
+  dateOfClaim: String!
+  requiredDocuments: [String!]
+  submittedDocuments: [String!]
+  assignedReviewer: String
+}
+
+type BenefitPayment {
+  id: ID!
+  claimId: ID!
+  beneficiaryId: ID!
+  amount: Float!
+  currency: String!
+  paymentMethod: String!
+  paidAt: String!
+  referenceNumber: String!
+}
+
+# -------------------------------------------------------------------
+# Agent and Partner Types
+# -------------------------------------------------------------------
+
+type Agent {
+  id: ID!
+  details: AgentDetails!
+  carriersAppointed: [Carrier!]!
+  policies: [Policy!]
+}
+
+type AgentDetails {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  npn: String!
+  licenseNumber: String!
+  residentState: String!
+  licensedStates: [String!]!
+}
+
+type Carrier {
+  id: ID!
+  details: CarrierDetails!
+}
+
+type CarrierDetails {
+  name: String!
+  naicCode: String!
+  amBestRating: String
+  approvedStates: [String!]!
+  productLines: [String!]!
+  website: String
+}
+
+type PartnerDetails {
+  id: ID!
+  name: String!
+  partnerId: String!
+  allowedProducts: [String!]!
+  apiAccessTier: String!
+  branding: PartnerBranding
+  integrations: [Integration!]
+}
+
+type PartnerBranding {
+  logoUrl: String
+  primaryColor: String
+  secondaryColor: String
+  companyDisplayName: String
+}
+
+type Integration {
+  id: ID!
+  partnerId: ID!
+  type: String!
+  status: String!
+  connectedSystems: [String!]!
+  configuredAt: String!
+}
+
+# -------------------------------------------------------------------
+# Auth Types
+# -------------------------------------------------------------------
+
+type APIKey {
+  id: ID!
+  partnerId: ID!
+  keyPrefix: String!
+  environment: String!
+  createdAt: String!
+  lastUsedAt: String
+  active: Boolean!
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  scope: String
+  issuedAt: String!
+}
+
+# -------------------------------------------------------------------
+# Webhook Types
+# -------------------------------------------------------------------
+
+type Webhook {
+  id: ID!
+  partnerId: ID!
+  url: String!
+  events: [WebhookEventType!]!
+  active: Boolean!
+  secret: String
+  createdAt: String!
+  lastTriggeredAt: String
+}
+
+type WebhookEvent {
+  id: ID!
+  webhookId: ID!
+  eventType: WebhookEventType!
+  payload: String!
+  deliveredAt: String
+  responseStatus: Int
+  retryCount: Int!
+  createdAt: String!
+}
+
+# -------------------------------------------------------------------
+# Shared Types
+# -------------------------------------------------------------------
+
+type Address {
+  street1: String!
+  street2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+}
+
+# -------------------------------------------------------------------
+# Input Types
+# -------------------------------------------------------------------
+
+input QuoteInput {
+  dateOfBirth: String!
+  gender: String!
+  state: String!
+  tobaccoUser: Boolean!
+  faceAmount: Float!
+  termLength: TermLength!
+}
+
+input ApplicationInput {
+  quoteId: ID!
+  applicantDetails: ApplicantInput!
+  partnerId: ID!
+  partnerReferenceId: String
+}
+
+input ApplicantInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  dateOfBirth: String!
+  gender: String!
+  ssn: String!
+  address: AddressInput!
+  tobaccoUser: Boolean!
+  heightInches: Int
+  weightLbs: Int
+}
+
+input AddressInput {
+  street1: String!
+  street2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+}
+
+input BeneficiaryInput {
+  type: BeneficiaryType!
+  firstName: String!
+  lastName: String!
+  relationship: String!
+  sharePercentage: Float!
+  dateOfBirth: String
+  email: String
+  phone: String
+}
+
+input ClaimInput {
+  claimantFirstName: String!
+  claimantLastName: String!
+  claimantRelationship: String!
+  dateOfDeath: String!
+  causeOfDeath: String
+}
+
+input WebhookInput {
+  partnerId: ID!
+  url: String!
+  events: [WebhookEventType!]!
+  secret: String
+}
+
+# -------------------------------------------------------------------
+# Query Root
+# -------------------------------------------------------------------
+
+type Query {
+  getQuote(input: QuoteInput!): Quote
+  getApplication(id: ID!): Application
+  listApplications(partnerId: ID!, status: ApplicationStatus): [Application!]
+  getPolicy(id: ID!): Policy
+  listPolicies(partnerId: ID!, status: PolicyStatus): [Policy!]
+  getApplicant(id: ID!): Applicant
+  listHealthQuestions(productType: String!): [HealthQuestion!]
+  getUnderwritingDetails(applicationId: ID!): UnderwritingDetails
+  getOffer(applicationId: ID!): Offer
+  getClaim(id: ID!): Claim
+  listClaims(policyId: ID!, status: ClaimStatus): [Claim!]
+  getAgent(id: ID!): Agent
+  getCarrier(id: ID!): Carrier
+  listCarriers: [Carrier!]
+  getPartnerDetails(partnerId: ID!): PartnerDetails
+  listWebhooks(partnerId: ID!): [Webhook!]
+  getWebhookEvent(id: ID!): WebhookEvent
+  listWebhookEvents(webhookId: ID!): [WebhookEvent!]
+}
+
+# -------------------------------------------------------------------
+# Mutation Root
+# -------------------------------------------------------------------
+
+type Mutation {
+  startApplication(input: ApplicationInput!): Application
+  submitApplication(id: ID!): Application
+  cancelApplication(id: ID!): Application
+  acceptOffer(offerId: ID!): Policy
+  declineOffer(offerId: ID!): Offer
+  addBeneficiary(policyId: ID!, input: BeneficiaryInput!): Beneficiary
+  updateBeneficiary(id: ID!, input: BeneficiaryInput!): Beneficiary
+  removeBeneficiary(id: ID!): Boolean
+  fileClaim(policyId: ID!, input: ClaimInput!): Claim
+  registerWebhook(input: WebhookInput!): Webhook
+  updateWebhook(id: ID!, input: WebhookInput!): Webhook
+  deactivateWebhook(id: ID!): Webhook
+  generateAPIKey(partnerId: ID!): APIKey
+  revokeAPIKey(id: ID!): Boolean
+}
+
+# -------------------------------------------------------------------
+# Subscription Root
+# -------------------------------------------------------------------
+
+type Subscription {
+  applicationStatusChanged(applicationId: ID!): Application
+  policyStatusChanged(policyId: ID!): Policy
+  claimStatusChanged(claimId: ID!): Claim
+  webhookEventReceived(partnerId: ID!): WebhookEvent
+}
