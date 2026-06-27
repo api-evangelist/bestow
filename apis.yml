@@ -70,7 +70,7 @@ common:
   url: https://www.bestow.com/careers
 - type: Contact
   url: https://www.bestow.com/contact
-- type: Licenses
+- type: License
   url: https://www.bestow.com/licenses
 - type: Terms
   url: https://www.bestow.com/terms-conditions
