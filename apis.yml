@@ -37,6 +37,21 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bestow.png
 tags:
 - Insurance
 - Life Insurance
+- Insurtech
+- Embedded Insurance
+- Insurance As A Service
+- Underwriting
+- Policy Administration
+- Term Life
+- Final Expense
+- IUL
+- Protect API
+- SDK
+- ACORD
+- Financial-Services
+tags_raw:
+- Insurance
+- Life Insurance
 - InsurTech
 - Embedded Insurance
 - Insurance As A Service
