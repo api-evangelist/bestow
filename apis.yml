@@ -20,6 +20,17 @@ description: Bestow is a Dallas, Texas life insurance technology company buildin
   sandbox access, and Protect API onboarding are gated behind a partner login at docs.bestow.com
   and arranged through Bestow's sales and partnerships team.
 type: Index
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - none
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: unknown
