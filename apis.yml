@@ -59,7 +59,7 @@ tags:
 - Protect API
 - SDK
 - ACORD
-- Financial-Services
+- Financial Services
 tags_raw:
 - Insurance
 - Life Insurance
@@ -75,6 +75,7 @@ tags_raw:
 - SDK
 - ACORD
 - Financial Services
+- Financial-Services
 url: https://raw.githubusercontent.com/api-evangelist/bestow/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-05-25'
@@ -121,8 +122,6 @@ common:
   url: https://www.youtube.com/@bestow_tech
 - type: Medium
   url: https://medium.com/bestowinc
-- url: graphql/bestow-graphql.md
-  type: GraphQL
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
